@@ -9,12 +9,13 @@
 /* Begin PBXBuildFile section */
 		33ADFD4F25C2D035005B09DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ADFD4E25C2D035005B09DA /* AppDelegate.swift */; };
 		33ADFD5125C2D035005B09DA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ADFD5025C2D035005B09DA /* SceneDelegate.swift */; };
-		33ADFD5325C2D035005B09DA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ADFD5225C2D035005B09DA /* ViewController.swift */; };
+		33ADFD5325C2D035005B09DA /* EmployeesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ADFD5225C2D035005B09DA /* EmployeesViewController.swift */; };
 		33ADFD5625C2D035005B09DA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33ADFD5425C2D035005B09DA /* Main.storyboard */; };
 		33ADFD5825C2D036005B09DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33ADFD5725C2D036005B09DA /* Assets.xcassets */; };
 		33ADFD5B25C2D036005B09DA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33ADFD5925C2D036005B09DA /* LaunchScreen.storyboard */; };
 		33ADFD6625C2D036005B09DA /* CasualCollisionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ADFD6525C2D036005B09DA /* CasualCollisionTests.swift */; };
 		33ADFD7125C2D036005B09DA /* CasualCollisionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ADFD7025C2D036005B09DA /* CasualCollisionUITests.swift */; };
+		33ADFD8525C2D164005B09DA /* Array+Collision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ADFD8425C2D164005B09DA /* Array+Collision.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +39,7 @@
 		33ADFD4B25C2D035005B09DA /* CasualCollision.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CasualCollision.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33ADFD4E25C2D035005B09DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33ADFD5025C2D035005B09DA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		33ADFD5225C2D035005B09DA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		33ADFD5225C2D035005B09DA /* EmployeesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeesViewController.swift; sourceTree = "<group>"; };
 		33ADFD5525C2D035005B09DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		33ADFD5725C2D036005B09DA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		33ADFD5A25C2D036005B09DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +50,7 @@
 		33ADFD6C25C2D036005B09DA /* CasualCollisionUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CasualCollisionUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		33ADFD7025C2D036005B09DA /* CasualCollisionUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasualCollisionUITests.swift; sourceTree = "<group>"; };
 		33ADFD7225C2D036005B09DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		33ADFD8425C2D164005B09DA /* Array+Collision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Collision.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		330B3D5D25C7F66400076287 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				330B3D5F25C7F67A00076287 /* ViewModel */,
+				330B3D5E25C7F67000076287 /* DataModel */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		330B3D5E25C7F67000076287 /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DataModel;
+			sourceTree = "<group>";
+		};
+		330B3D5F25C7F67A00076287 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		33ADFD4225C2D035005B09DA = {
 			isa = PBXGroup;
 			children = (
@@ -99,9 +124,13 @@
 		33ADFD4D25C2D035005B09DA /* CasualCollision */ = {
 			isa = PBXGroup;
 			children = (
+				330B3D5D25C7F66400076287 /* Model */,
+				33ADFD8325C2D084005B09DA /* Extensions */,
+				33ADFD8225C2D059005B09DA /* Connection */,
+				33ADFD8125C2D04B005B09DA /* View */,
 				33ADFD4E25C2D035005B09DA /* AppDelegate.swift */,
 				33ADFD5025C2D035005B09DA /* SceneDelegate.swift */,
-				33ADFD5225C2D035005B09DA /* ViewController.swift */,
+				33ADFD5225C2D035005B09DA /* EmployeesViewController.swift */,
 				33ADFD5425C2D035005B09DA /* Main.storyboard */,
 				33ADFD5725C2D036005B09DA /* Assets.xcassets */,
 				33ADFD5925C2D036005B09DA /* LaunchScreen.storyboard */,
@@ -126,6 +155,28 @@
 				33ADFD7225C2D036005B09DA /* Info.plist */,
 			);
 			path = CasualCollisionUITests;
+			sourceTree = "<group>";
+		};
+		33ADFD8125C2D04B005B09DA /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		33ADFD8225C2D059005B09DA /* Connection */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Connection;
+			sourceTree = "<group>";
+		};
+		33ADFD8325C2D084005B09DA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				33ADFD8425C2D164005B09DA /* Array+Collision.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,8 +309,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33ADFD5325C2D035005B09DA /* ViewController.swift in Sources */,
+				33ADFD5325C2D035005B09DA /* EmployeesViewController.swift in Sources */,
 				33ADFD4F25C2D035005B09DA /* AppDelegate.swift in Sources */,
+				33ADFD8525C2D164005B09DA /* Array+Collision.swift in Sources */,
 				33ADFD5125C2D035005B09DA /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -437,6 +489,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = CasualCollision/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -455,6 +508,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = CasualCollision/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
