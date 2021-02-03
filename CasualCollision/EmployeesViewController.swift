@@ -13,7 +13,7 @@ class EmployeesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        let array = [0, 1, 2, 3, 4, 5, 6, 7]
+        let array = [0, 1, 2, 3, 4, 5]
         let c = array.collision(type: Int.self)
 //        print(c)
         array.uniquePairs(type: Int.self)
@@ -104,7 +104,7 @@ extension Array where Self.Element : Comparable {
         var pairDic = t.1
         var tupels = t.0
         print(tupels)
-        return pairDic
+//        return pairDic
 //        var result: [Int: [(T, T)]] = pairDictionary(type: type)
 //        let tupels = collision(type: type)
         for i in 0...countTupels - 2 {
@@ -115,9 +115,9 @@ extension Array where Self.Element : Comparable {
             let ft = findTupel(a: filter, maxValue: !(i).isMultiple(of: 2))
             pairs.append(ft)
             for j in 1...countDic - 2 {
-                print(filter)
+//                print(filter)
                 filter = filter.filter{($0.0 != pairs[1].0 && $0.1 != pairs[1].1) && ($0.0 != pairs[1].1 && $0.1 != pairs[1].0)}
-                print(filter)
+//                print(filter)
                 pairs.append(filter.first!) // (== min value )
                 tupels = tupels.filter({ (tupel) -> Bool in
                     !pairs.contains { (value) -> Bool in
@@ -128,7 +128,7 @@ extension Array where Self.Element : Comparable {
             print("i:[\(i)]: \(pairs)")
             pairDic[i] = pairs
         }
-//        result.printValues(type: type)
+        pairDic.printValues(type: type)
         return pairDic
     }
     
