@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		330B3D6625C8444C00076287 /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330B3D6525C8444C00076287 /* Employee.swift */; };
+		330B3D7325C845A700076287 /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330B3D7225C845A700076287 /* HTTPRequest.swift */; };
 		33ADFD4F25C2D035005B09DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ADFD4E25C2D035005B09DA /* AppDelegate.swift */; };
 		33ADFD5125C2D035005B09DA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ADFD5025C2D035005B09DA /* SceneDelegate.swift */; };
 		33ADFD5325C2D035005B09DA /* EmployeesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ADFD5225C2D035005B09DA /* EmployeesViewController.swift */; };
@@ -36,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		330B3D6525C8444C00076287 /* Employee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
+		330B3D7225C845A700076287 /* HTTPRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
 		33ADFD4B25C2D035005B09DA /* CasualCollision.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CasualCollision.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33ADFD4E25C2D035005B09DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33ADFD5025C2D035005B09DA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -90,6 +94,7 @@
 		330B3D5E25C7F67000076287 /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				330B3D6525C8444C00076287 /* Employee.swift */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -167,6 +172,7 @@
 		33ADFD8225C2D059005B09DA /* Connection */ = {
 			isa = PBXGroup;
 			children = (
+				330B3D7225C845A700076287 /* HTTPRequest.swift */,
 			);
 			path = Connection;
 			sourceTree = "<group>";
@@ -312,6 +318,8 @@
 				33ADFD5325C2D035005B09DA /* EmployeesViewController.swift in Sources */,
 				33ADFD4F25C2D035005B09DA /* AppDelegate.swift in Sources */,
 				33ADFD8525C2D164005B09DA /* Array+Collision.swift in Sources */,
+				330B3D7325C845A700076287 /* HTTPRequest.swift in Sources */,
+				330B3D6625C8444C00076287 /* Employee.swift in Sources */,
 				33ADFD5125C2D035005B09DA /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
