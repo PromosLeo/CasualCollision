@@ -8,13 +8,18 @@
 import Foundation
 
 class HttPReuest {
+    
     var endPoint: String! {
         didSet {
             url = URL(string: baseUrl + endPoint)
         }
     } // override in Subclass
     
-    var baseUrl =  "https://jsonplaceholder.typicode.com/"
+    fileprivate (set) var json: String?
+    fileprivate (set) var error: Error?
+    fileprivate (set) var data: Data?
+    
+    fileprivate (set) var baseUrl = "https://jsonplaceholder.typicode.com/"
     var url: URL!
     
     init() {
@@ -26,19 +31,21 @@ class HttPReuest {
     }
     
     func send() {
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let data = data {
-                if let jsonString = String(data: data, encoding: .utf8) {
-                    print(jsonString)
-                }
+        let urlSession = URLSession(configuration: .default).dataTask(with: self.url) { (data, response, error) in
+            
+            guard let _ = data else {
+                NotificationCenter.default.post(name: Notification.requestDidFinish, object: self)
+                return
             }
-           }.resume()
+            self.data = data
+            self.error = error
+            
+            NotificationCenter.default.post(name: Notification.requestDidFinish, object: self)
+        }.resume()
     }
-    
-    
 }
 
-class EmployeeRequest: HttPReuest {
+class EmployeesRequest: HttPReuest {
     internal override var endPoint: String! {
         didSet {
             super.endPoint = endPoint
