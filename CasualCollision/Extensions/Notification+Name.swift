@@ -14,4 +14,6 @@ public extension Notification {
     static let employeesDidUpdate: Name = Notification.Name("employeesDidUpdate")
     // the completed notification should be send, if we got all data of emploees (Common Notice: Request with paging are normally.)
     static let employeesDidCompleted: Name = Notification.Name("employeesDidCompleted")
+    
+    static let collisionDidCompleted: Name = Notification.Name("collisionDidCompleted")
 }

@@ -90,7 +90,7 @@ class Element {
 class Employees: Element, JsonDecodeDelegate {
     func decoded<T>(data: [T]?) where T : Decodable {
         if let data = data as? [Employee] {
-            list?.append(contentsOf: data)
+            list.append(contentsOf: data)
             lastAppendData = data
             NotificationCenter.default.post(name: Notification.employeesDidUpdate, object: self)
             // here we send the completed notification, because there are no more EmployeeRequests
@@ -104,7 +104,7 @@ class Employees: Element, JsonDecodeDelegate {
         jsonDecode.decode(type: Employee.self)
     }
     
-    var list: Array<Employee>?
+    var list: [Employee] = [Employee]()
     
     init() {
         super.init(type: Employee.self)
