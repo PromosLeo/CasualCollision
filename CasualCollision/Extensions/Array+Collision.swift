@@ -62,10 +62,10 @@ extension Array where Self.Element : Comparable {
     }
     
     private func pairDictionary<T: Comparable>(type: T.Type) -> (tupels: Array<(T, T)>, Dictionary<Int, [(T, T)]>) {
-        var dict: [Int: [(T, T)]]! = [Int: [(T, T)]](minimumCapacity: countDic)
+        var dict: [Int: [(T, T)]]! = [Int: [(T, T)]](minimumCapacity: countColumn)
         let tupels = collision(type: type)
-        for i in 0...countTupels - 1 {
-            dict[i] = [(T, T)](repeating: tupels[i], count: countDic)
+        for i in 0...countColumn - 1 {
+            dict[i] = [(T, T)](repeating: tupels[i], count: countRows)
             
         }
         return (tupels, dict)
@@ -85,27 +85,48 @@ extension Array where Self.Element : Comparable {
         var pairDic = t.1
         var tupels = t.0
         print(tupels)
-//        return pairDic
-//        var result: [Int: [(T, T)]] = pairDictionary(type: type)
-//        let tupels = collision(type: type)
-        for i in 0...countTupels - 2 {
+        for i in 0...countColumn - 1 {
+            var filter = tupels
             var pairs = [(T, T)]()
-//            print("i: \(i)")
-            pairs.append(pairDic[i]!.first!) // erster wert unstrittig
-            var filter: [(T, T)] = tupels.filter{($0.0 != pairs[0].0 && $0.1 != pairs[0].1) && ($0.0 != pairs[0].1 && $0.1 != pairs[0].0)}
-            let ft = findTupel(a: filter, maxValue: !(i).isMultiple(of: 2))
-            pairs.append(ft)
-            for j in 1...countDic - 2 {
-//                print(filter)
-                filter = filter.filter{($0.0 != pairs[1].0 && $0.1 != pairs[1].1) && ($0.0 != pairs[1].1 && $0.1 != pairs[1].0)}
-//                print(filter)
-                pairs.append(filter.first!) // (== min value )
-                tupels = tupels.filter({ (tupel) -> Bool in
-                    !pairs.contains { (value) -> Bool in
-                        tupel == value
+            for j in 0...countRows - 1 {
+                var pair: (T, T)!
+                pair = filter.first
+                if j > 0 && i > 0, 1 < filter.count {
+                    // wenn möglich 1 nach recths
+                    let pairRight: (T, T)? = filter[1]
+                    if pairRight!.0 == pair.0 {
+                        pair = pairRight
                     }
-                })
+                }
+                pairs.append(pair)
+                print("pairs: \(pairs)")
+                filter = filter.filter{($0.0 != pair.0 && $0.1 != pair.1) && ($0.0 != pair.1 && $0.1 != pair.0)}
+                
+                print("filter: \(filter)")
             }
+            tupels = tupels.filter({ (tupel) -> Bool in
+                !pairs.contains { (value) -> Bool in
+                    tupel == value
+                }
+            })
+            
+//            print("i: \(i)")
+              
+//             // erster wert unstrittig
+//            var filter: [(T, T)] = tupels.filter{($0.0 != pairs[0].0 && $0.1 != pairs[0].1) && ($0.0 != pairs[0].1 && $0.1 != pairs[0].0)}
+//            print("Filter i: \(filter)")
+//            let ft = findTupel(a: filter, maxValue: !(i).isMultiple(of: 2))
+//            pairs.append(ft)
+//            for j in 1...countDic - 2 {
+//                filter = filter.filter{($0.0 != pairs[1].0 && $0.1 != pairs[1].1) && ($0.0 != pairs[1].1 && $0.1 != pairs[1].0)}
+//                print("Filter j: \(filter)")
+//                pairs.append(filter.first!) // (== min value )
+//                tupels = tupels.filter({ (tupel) -> Bool in
+//                    !pairs.contains { (value) -> Bool in
+//                        tupel == value
+//                    }
+//                })
+//            }
             print("i:[\(i)]: \(pairs)")
             pairDic[i] = pairs
         }
@@ -114,11 +135,11 @@ extension Array where Self.Element : Comparable {
     }
     
     /// imagine as days
-    private var countTupels: Int! {
-        return self.count
+    private var countColumn: Int! {
+        return self.count - 1
     }
-    /// imagine as numbers of day
-    private var countDic: Int! {
+    /// imagine as pairs of day
+    private var countRows: Int! {
         return self.count/2
     }
     

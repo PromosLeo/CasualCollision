@@ -18,12 +18,12 @@ class CollisionViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = CollisionEmployeesViewModel()
+//        viewModel = CollisionEmployeesViewModel()
         // Do any additional setup after loading the view.
-//        let array = [0, 1, 2, 3, 4, 5]
+        let array = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 //        let c = array.collision(type: Int.self)
 ////        print(c)
-//        array.uniquePairs(type: Int.self)
+        array.uniquePairs(type: Int.self)
         
 //        let result  = array.uniquePairs(type: Int.self)
 //        print(result)
