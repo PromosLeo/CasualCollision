@@ -7,11 +7,15 @@
 
 import Foundation
 
-extension Dictionary {
+extension Dictionary where Self.Key : Comparable {
     /// small Helper :)
     func printValues<T: Comparable>(type: T.Type) {
-        for (_, values) in self.enumerated() {
-            print(values)
+        let sortedKeys = Array(self.keys).sorted()
+        print(sortedKeys)
+        for key in sortedKeys {
+            if let value = self[key] as? [(T, T)] {
+                print("\(key) : \(value)")
+            }
         }
     }
 }
@@ -61,14 +65,31 @@ extension Array where Self.Element : Comparable {
         return value!
     }
     
-    private func pairDictionary<T: Comparable>(type: T.Type) -> (tupels: Array<(T, T)>, Dictionary<Int, [(T, T)]>) {
-        var dict: [Int: [(T, T)]]! = [Int: [(T, T)]](minimumCapacity: countColumn)
-        let tupels = collision(type: type)
-        for i in 0...countColumn - 1 {
-            dict[i] = [(T, T)](repeating: tupels[i], count: countRows)
-            
+    private func tupelDictionary<T: Comparable>(type: T.Type, tupels: Array<(T, T)>) -> Dictionary<Int, [(T, T)]> {
+        var dict = [Int: [(T, T)]]()
+        var tupels = tupels
+        for i in 0...countRows {
+            let tupel: (T, T) = tupels.first!
+            let filter = tupels.filter{$0.0 == tupel.0}
+            dict[i] = filter
+            tupels.removeAll { (tupel) -> Bool in
+                filter.contains { (value) -> Bool in
+                    tupel == value
+                }
+            }
         }
-        return (tupels, dict)
+        dict.printValues(type: type)
+        return dict
+    }
+    
+    private func pairDictionary<T: Comparable>(type: T.Type) -> (tupels: Dictionary<Int, [(T, T)]>, pairs: Dictionary<Int, [(T, T)]>) {
+        var dict: [Int: [(T, T)]]! = [Int: [(T, T)]](minimumCapacity: countRows)
+        let tupels = collision(type: type)
+        for i in 0...countRows {
+            dict[i] = [(T, T)](repeating: tupels[i], count: 1)
+        }
+        let tupelDict = tupelDictionary(type: type, tupels: tupels)
+        return (tupelDict, dict)
     }
     
     /// [0, 1, 2, 3, 4, 5]
@@ -82,65 +103,63 @@ extension Array where Self.Element : Comparable {
     func uniquePairs<T: Comparable>(type: T.Type) -> Dictionary<Int, [(T, T)]> {
         try! isEven()
         let t = pairDictionary(type: type)
-        var pairDic = t.1
-        var tupels = t.0
-        print(tupels)
-        for i in 0...countColumn - 1 {
-            var filter = tupels
-            var pairs = [(T, T)]()
-            for j in 0...countRows - 1 {
-                var pair: (T, T)!
-                pair = filter.first
-                if j > 0 && i > 0, 1 < filter.count {
-                    // wenn möglich 1 nach recths
-                    let pairRight: (T, T)? = filter[1]
-                    if pairRight!.0 == pair.0 {
-                        pair = pairRight
-                    }
-                }
-                pairs.append(pair)
-                print("pairs: \(pairs)")
-                filter = filter.filter{($0.0 != pair.0 && $0.1 != pair.1) && ($0.0 != pair.1 && $0.1 != pair.0)}
-                
-                print("filter: \(filter)")
+        var refTupel = t.0
+        var pairDict = t.1
+        var used = [(T, T)]()
+        for (index, value) in self.enumerated() {
+            if !index.isMultiple(of: 2) {
+                continue
             }
-            tupels = tupels.filter({ (tupel) -> Bool in
-                !pairs.contains { (value) -> Bool in
+            used.append((value, self[index + 1]) as! (T, T))
+        }
+        pairDict[0] = used
+        pairDict.printValues(type: type)
+        refTupel.removeValue(forKey: 0)
+        refTupel.printValues(type: type)
+        let keys = refTupel.keys.sorted()
+        for key in keys {
+            var insertTupels = refTupel[key]
+            insertTupels?.removeAll(where: { (tupel) -> Bool in
+                used.contains { (value) -> Bool in
                     tupel == value
                 }
             })
-            
-//            print("i: \(i)")
-              
-//             // erster wert unstrittig
-//            var filter: [(T, T)] = tupels.filter{($0.0 != pairs[0].0 && $0.1 != pairs[0].1) && ($0.0 != pairs[0].1 && $0.1 != pairs[0].0)}
-//            print("Filter i: \(filter)")
-//            let ft = findTupel(a: filter, maxValue: !(i).isMultiple(of: 2))
-//            pairs.append(ft)
-//            for j in 1...countDic - 2 {
-//                filter = filter.filter{($0.0 != pairs[1].0 && $0.1 != pairs[1].1) && ($0.0 != pairs[1].1 && $0.1 != pairs[1].0)}
-//                print("Filter j: \(filter)")
-//                pairs.append(filter.first!) // (== min value )
-//                tupels = tupels.filter({ (tupel) -> Bool in
-//                    !pairs.contains { (value) -> Bool in
-//                        tupel == value
-//                    }
-//                })
-//            }
-            print("i:[\(i)]: \(pairs)")
-            pairDic[i] = pairs
+            let pkeys = pairDict.keys.sorted()
+            for pkey in pkeys {
+                if pairDict[pkey]?.count == countColumn {
+                    continue
+                }
+                var array = pairDict[pkey]
+                let filter = insertTupels?.filter({ (tupel) -> Bool in
+                    !(array?.contains(where: { (value) -> Bool in
+                        tupel.0 == value.0 || tupel.0 == value.1 || tupel.1 == value.0 || tupel.1 == value.1
+                    }) ?? false)
+                })
+                print(filter)
+                if let found = filter?.first {
+                    array?.append(found)
+                    pairDict[pkey] = array
+                    insertTupels?.removeAll(where: {$0 == found})
+                    used.append(found)
+                }
+                if insertTupels?.isEmpty ?? true {
+                    refTupel.removeValue(forKey: key)
+                    break
+                }
+            }
+            pairDict.printValues(type: Int.self)
+            refTupel.printValues(type: Int.self)
         }
-        pairDic.printValues(type: type)
-        return pairDic
+        return pairDict
     }
     
     /// imagine as days
     private var countColumn: Int! {
-        return self.count - 1
+        return self.count/2
     }
     /// imagine as pairs of day
     private var countRows: Int! {
-        return self.count/2
+        return self.count - 2
     }
     
     private func findValid<T: Comparable>(to: (T, T), in array: [(T, T)]) -> (T, T) {
