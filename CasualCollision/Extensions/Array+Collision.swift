@@ -7,14 +7,33 @@
 
 import Foundation
 
-extension Dictionary where Self.Key : Comparable {
+extension Dictionary where Self.Key: Comparable {
     /// small Helper :)
     func printValues<T: Comparable>(type: T.Type) {
         let sortedKeys = Array(self.keys).sorted()
-        print(sortedKeys)
         for key in sortedKeys {
             if let value = self[key] as? [(T, T)] {
                 print("\(key) : \(value)")
+            }
+        }
+    }
+    
+    fileprivate mutating func prepareReference<T: Comparable>(type: T.Type, pairDict: Dictionary<Int, [(T, T)]>) {
+        var sortedKeys = Array(self.keys).sorted()
+        if let key = sortedKeys.first {
+            self.removeValue(forKey: key)
+            sortedKeys.remove(at: 0)
+        }
+        if let remove = pairDict[0] {
+            for key in sortedKeys {
+                if var array = self[key] as? [(T, T)] {
+                    array.removeAll { (tupel) -> Bool in
+                        remove.contains { (value) -> Bool in
+                            tupel == value
+                        }
+                    }
+                    self[key] = array as? Value
+                }
             }
         }
     }
@@ -114,42 +133,48 @@ extension Array where Self.Element : Comparable {
         }
         pairDict[0] = used
         pairDict.printValues(type: type)
-        refTupel.removeValue(forKey: 0)
+        refTupel.prepareReference(type: type, pairDict: pairDict)
         refTupel.printValues(type: type)
         let keys = refTupel.keys.sorted()
-        for key in keys {
-            var insertTupels = refTupel[key]
-            insertTupels?.removeAll(where: { (tupel) -> Bool in
-                used.contains { (value) -> Bool in
-                    tupel == value
-                }
-            })
-            let pkeys = pairDict.keys.sorted()
-            for pkey in pkeys {
-                if pairDict[pkey]?.count == countColumn {
-                    continue
-                }
-                var array = pairDict[pkey]
-                let filter = insertTupels?.filter({ (tupel) -> Bool in
-                    !(array?.contains(where: { (value) -> Bool in
-                        tupel.0 == value.0 || tupel.0 == value.1 || tupel.1 == value.0 || tupel.1 == value.1
-                    }) ?? false)
+//        repeat {
+            for key in keys {
+                var insertTupels = refTupel[key]
+                insertTupels?.removeAll(where: { (tupel) -> Bool in
+                    used.contains { (value) -> Bool in
+                        tupel == value
+                    }
                 })
-                print(filter)
-                if let found = filter?.first {
-                    array?.append(found)
-                    pairDict[pkey] = array
-                    insertTupels?.removeAll(where: {$0 == found})
-                    used.append(found)
+                let pkeys = pairDict.keys.sorted()
+                for pkey in pkeys {
+                    if pairDict[pkey]?.count == countColumn {
+                        continue
+                    }
+                    var array = pairDict[pkey]
+                    let filter = insertTupels?.filter({ (tupel) -> Bool in
+                        !(array?.contains(where: { (value) -> Bool in
+                            tupel.0 == value.0 || tupel.0 == value.1 || tupel.1 == value.0 || tupel.1 == value.1
+                        }) ?? false)
+                    })
+                    print(filter)
+                    if let found = filter?.first {
+                        array?.append(found)
+                        pairDict[pkey] = array
+                        insertTupels?.removeAll(where: {$0 == found})
+                        used.append(found)
+                    }
+                    if insertTupels?.isEmpty ?? true {
+                        refTupel.removeValue(forKey: key)
+                        break
+                    }
+                    refTupel[key] = insertTupels
                 }
-                if insertTupels?.isEmpty ?? true {
+                pairDict.printValues(type: Int.self)
+                if refTupel[key]?.isEmpty ?? true {
                     refTupel.removeValue(forKey: key)
-                    break
                 }
+                refTupel.printValues(type: Int.self)
             }
-            pairDict.printValues(type: Int.self)
-            refTupel.printValues(type: Int.self)
-        }
+//        } while !refTupel.isEmpty
         return pairDict
     }
     
